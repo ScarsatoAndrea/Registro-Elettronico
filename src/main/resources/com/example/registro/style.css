@@ -1,0 +1,56 @@
+.root{
+     -fx-background-color : #f5f5f5;
+}
+
+.sideBar{
+    -fx-background-color : #100e34;
+    -fx-border-color: #100e34;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+}
+
+.innerPanel{
+    -fx-background-color : #4f48ec;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+    -fx-border-color: #4f48ec;
+}
+
+.btnHome{
+    -fx-background-color : #ffcb50;
+    -fx-border-color: #ffcb18;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+}
+.notActive{
+    -fx-background-color : #4f48ec;
+    -fx-border-color: #4f48ec;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+}
+
+.homePane{
+    -fx-background-color : #e5e5e5;
+    -fx-border-color: #e5e5e5;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+}
+
+.progressBar{
+    -fx-background-color : #e5e5e5;
+    -fx-border-color: #e5e5e5;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+}
