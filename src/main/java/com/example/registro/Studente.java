@@ -12,15 +12,13 @@ public class Studente {
     private ArrayList<Assenze> assenze;
     private String password;
     private Socket socket = new Socket("127.0.0.1", 50007);
+    private DataOutputStream out = new DataOutputStream (socket.getOutputStream());
     private int media;
-
 
 
     public Studente(String username, String password) throws IOException{
         this.username = username;
         this.password = password;
-
-        DataOutputStream out = new DataOutputStream (socket.getOutputStream());
 
         try {
             out.writeUTF(username);
@@ -39,6 +37,7 @@ public class Studente {
 //        }
         this.loadRegistro();
         out.close();
+        socket.close();
     }
     private void loadRegistro () {
         String asse = "";
@@ -46,11 +45,65 @@ public class Studente {
             DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             String vot = "";
 
-            vot = in.readUTF();
+            int length = in.readInt();
+            System.out.println(length);
+
+            byte[] messageByte = new byte[length];
+            boolean end = false;
+            StringBuilder dataString = new StringBuilder(length);
+            int totalBytesRead = 0;
+            while(!end) {
+                int currentBytesRead = in.read(messageByte);
+                totalBytesRead = currentBytesRead + totalBytesRead;
+                if(totalBytesRead <= length) {
+                    dataString.append(new String(messageByte, 0, currentBytesRead, StandardCharsets.UTF_8));
+                } else {
+                    dataString.append(new String(messageByte, 0, length - totalBytesRead + currentBytesRead,
+                                    StandardCharsets.UTF_8));
+                }
+                if(dataString.length()>=length) {
+                    end = true;
+                }
+            }
+
+            vot = new String(dataString);
             System.out.println(vot);
             getVoti(vot);
 
-            asse = in.readUTF();
+
+            length = in.readInt();
+            messageByte = new byte[length];
+            end = false;
+            System.out.println(length);
+            dataString = new StringBuilder(length);
+            totalBytesRead = 0;
+            while(!end) {
+                int currentBytesRead = in.read(messageByte);
+                totalBytesRead = currentBytesRead + totalBytesRead;
+                if(totalBytesRead <= length) {
+                    dataString.append(new String(messageByte, 0, currentBytesRead, StandardCharsets.UTF_8));
+                } else {
+                    try {
+                        dataString.append(new String(messageByte, 0, length - totalBytesRead + currentBytesRead,
+                                StandardCharsets.UTF_8));
+                    }catch (Exception e){
+                        System.out.println("errore");
+                    }
+                }
+                if(dataString.length()>=length) {
+                    end = true;
+                }
+            }
+
+
+            asse = new String(dataString);
+            System.out.println(asse);
+            assenze = getAssenze(asse);
+            System.out.println("Assenze: " + assenze);
+//                out.writeUTF("chiudi");
+//                out.flush();
+
+
 
         }catch (EOFException e){
             System.out.println(asse);
@@ -60,7 +113,6 @@ public class Studente {
         }catch (IOException ee){
             System.out.println("Sticazzi pt2");
         }
-
     }
 
     private static HashMap<String, Voto> getVoti (String s){
